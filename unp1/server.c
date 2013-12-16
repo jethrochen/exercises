@@ -34,13 +34,9 @@ int main(void)
         connfd = accept(listenfd, 
                 (struct sockaddr *)&cliaddr, &cliaddr_len);
         n = read(connfd, buf, MAXLINE);
-//        printf("received from %s at PORT %d\n", 
-//                inet_ntop(AF_INET, &cliaddr.sin_addr, str, sizeof(str)),
-//                ntohs(cliaddr.sin_port));
-
-        printf("received from %d\n", 
-                ntohs(cliaddr.sin_port)
-              ); 
+        inet_ntop(AF_INET, &cliaddr.sin_addr, str, sizeof(str)),
+        printf("received from %s at PORT %d\n", str,
+                ntohs(cliaddr.sin_port));
 
         for (i = 0; i < n; i++)
             buf[i] = toupper(buf[i]);

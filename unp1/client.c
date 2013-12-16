@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -7,20 +8,21 @@
 #define MAXLINE 80
 #define SERV_PORT 8000
 
-int main(void)
+int main(int argc, char *argv[])
 {
     struct sockaddr_in servaddr;
     char buf[MAXLINE];
     int sockfd, n;
     char *str;
 
-    str = "hello world\n";
+    str = (char *)malloc(200);
+    str = argv[1];
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     inet_pton(AF_INET, "127.0.0.0.1", &servaddr.sin_addr);
-    servaddr.sin_port = htons(SERV_PORT);
+    servaddr.sin_port = htons(9000);
 
     connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
 
