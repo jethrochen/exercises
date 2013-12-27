@@ -1,17 +1,23 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main(void)
 {
-    pid_t pid;
-    
-    if ((pid = fork()) == 0)
-    {
-        execlp("gnome-terminal", "gnome-termianl", (char *)0);
-        printf("hello\n");
-    }
+    char num[100];
+    int i;
 
-    sleep(100);
+    for (i = 1; i < 100; i++)
+    {
+        num[i] = '0' + i;
+    }
+    num[99] = '\0';
+    printf("%s\n", num);
+
+    write(STDOUT_FILENO, num, 10);
+    printf("\n");
+    write(STDOUT_FILENO, num, 20);
+
     return 0;
 }

@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     pid_t pid;
     char buf[100];
     socklen_t socklen;
+    int n;
 
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     memset(&servaddr, 0, sizeof(struct sockaddr_in));
@@ -28,8 +29,11 @@ int main(int argc, char *argv[])
         if ((pid = fork()) == 0)
         {
             close(listenfd);
-            read(connfd, buf, 100);
-            fputs(buf, stdout);
+            while((n = read(connfd, buf, 100)) > 0)
+            {
+                write(STDOUT_FILENO, buf, n);
+                write(connfd, buf, n);
+            }
             close(connfd);
             exit(0);
         }
